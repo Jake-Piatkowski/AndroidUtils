@@ -72,6 +72,41 @@ public class DeviceUtils {
 		return context.getResources().getDimensionPixelSize(resourceId);
 	}
 
+	public static float getScreenDensity(Context context) {
+
+		return context.getResources().getDisplayMetrics().density;
+	}
+
+	public static String getScreenDensityName(Context context) {
+
+		float density = DeviceUtils.getScreenDensity(context);
+
+		if (density >= 4.0) {
+
+			return "xxxhdpi";
+		}
+		else if (density >= 3.0) {
+
+			return "xxhdpi";
+		}
+		else if (density >= 2.0) {
+
+			return "xhdpi";
+		}
+		else if (density >= 1.5) {
+
+			return "hdpi";
+		}
+		else if (density >= 1.0) {
+
+			return "mdpi";
+		}
+		else {
+
+			return "ldpi";
+		}
+	}
+
 	public static String getUserFriendlyDeviceName() {
 
 		return Devices.getDeviceName();
