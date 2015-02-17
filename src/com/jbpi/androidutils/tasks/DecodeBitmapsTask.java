@@ -17,6 +17,11 @@ public class DecodeBitmapsTask extends AsyncTask<Void, Void, Void> {
 		// For each ImageView decode its Bitmap
 		for (ImageView imageView : this.imageViewsContentFilepaths.keySet()) {
 
+			if (isCancelled()) {
+
+				break;
+			}
+
 			String filepath = this.imageViewsContentFilepaths.get(imageView);
 			Bitmap bitmap = BitmapFactory.decodeFile(filepath);
 			this.imageViewsBitmaps.put(imageView, bitmap);
