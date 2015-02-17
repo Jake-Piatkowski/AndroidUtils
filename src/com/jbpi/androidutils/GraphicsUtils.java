@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
@@ -74,5 +75,10 @@ public class GraphicsUtils {
 			bitmapDrawable.getBitmap().recycle();
 			bitmapDrawable = null;
 		}
+	}
+
+	public static LayoutInflater getLayoutInflater(Context context) {
+
+		return (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 }
