@@ -5,8 +5,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -66,9 +68,42 @@ public class GraphicsUtils {
 		return bitmap;
 	}
 
+	/**
+	 * Recycles Bitmap used in ImageView's Drawable. If the Drawable is of type AnimationDrawable,
+	 * then the Bitmap of every one of its frames will be recycled.
+	 * 
+	 * @param imageView
+	 */
 	public static void recycleBitmap(ImageView imageView) {
 
-		BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
+		if (imageView == null || imageView.getDrawable() == null) {
+
+			return;
+		}
+
+		if (imageView.getDrawable() instanceof BitmapDrawable) {
+
+			BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
+			GraphicsUtils.recycleBitmapDrawable(bitmapDrawable);
+		}
+		else if (imageView.getDrawable() instanceof AnimationDrawable) {
+
+			AnimationDrawable animationDrawable = (AnimationDrawable) imageView.getDrawable();
+
+			for (int i = 0; i < animationDrawable.getNumberOfFrames(); i++) {
+
+				BitmapDrawable bitmapDrawableFrame = (BitmapDrawable) animationDrawable.getFrame(i);
+				GraphicsUtils.recycleBitmapDrawable(bitmapDrawableFrame);
+			}
+		}
+		else {
+
+			Log.e("AndroidUtils",
+					"GraphicsUtils.recycleBitmap could NOT recycle Bitmap - unknown type of drawable");
+		}
+	}
+
+	private static void recycleBitmapDrawable(BitmapDrawable bitmapDrawable) {
 
 		if (bitmapDrawable != null && bitmapDrawable.getBitmap() != null) {
 
