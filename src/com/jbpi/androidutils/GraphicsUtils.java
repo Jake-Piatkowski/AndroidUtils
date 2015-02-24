@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -76,19 +77,29 @@ public class GraphicsUtils {
 	 */
 	public static void recycleBitmap(ImageView imageView) {
 
-		if (imageView == null || imageView.getDrawable() == null) {
+		if (imageView == null) {
 
 			return;
 		}
 
-		if (imageView.getDrawable() instanceof BitmapDrawable) {
+		GraphicsUtils.recycleBitmap(imageView.getDrawable());
+	}
 
-			BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
+	public static void recycleBitmap(Drawable drawable) {
+
+		if (drawable == null) {
+
+			return;
+		}
+
+		if (drawable instanceof BitmapDrawable) {
+
+			BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
 			GraphicsUtils.recycleBitmapDrawable(bitmapDrawable);
 		}
-		else if (imageView.getDrawable() instanceof AnimationDrawable) {
+		else if (drawable instanceof AnimationDrawable) {
 
-			AnimationDrawable animationDrawable = (AnimationDrawable) imageView.getDrawable();
+			AnimationDrawable animationDrawable = (AnimationDrawable) drawable;
 
 			for (int i = 0; i < animationDrawable.getNumberOfFrames(); i++) {
 
