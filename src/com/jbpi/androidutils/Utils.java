@@ -154,13 +154,14 @@ public class Utils {
 	 * Note: CASE SENSITIVE.
 	 * 
 	 * Note: length has a high influence on how likely it'll be to generate the same string twice.
-	 * The probability factor formula is: 1 / (number_of_possible_chars ^ stringLength).
+	 * The probability factor formula is: 1 / (number_of_possible_chars ^ stringLength). Using chars
+	 * from the English alphabet gives us: 1 / (62 ^ stringLength).
 	 * 
 	 * @return String of given length with random alphanumeric chars from the English alphabet.
 	 */
-	public static String generateOrderId(int stringLength) {
+	public static String generateRandomString(int stringLength) {
 
-		// Order Id has chars from the following range: [A-Za-z0-9]
+		// A uuid can have chars from the following range: [A-Za-z0-9]
 		// This means there's 62 possible chars for each char spot in the string
 		Random random = new Random();
 		StringBuilder orderIdBuilder = new StringBuilder();
@@ -179,4 +180,9 @@ public class Utils {
 			'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
 			'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6',
 			'7', '8', '9' };
+
+	public static String generateUuid() {
+
+		return Utils.generateRandomString(32);
+	}
 }
