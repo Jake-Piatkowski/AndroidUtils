@@ -168,13 +168,20 @@ public class DeviceUtils {
 	}
 
 	/**
-	 * Checks if the device's bluetooth is on.
+	 * Checks if the device's Bluetooth is on. Returns false if Bluetooth is not available on the
+	 * device.
 	 * 
 	 * @return True if bluetooth turned on.
 	 */
 	public static boolean isBluetoothEnabled() {
 
 		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+		if (bluetoothAdapter == null) {
+
+			return false;
+		}
+
 		return bluetoothAdapter.isEnabled();
 	}
 
