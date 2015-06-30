@@ -30,6 +30,35 @@ public class GraphicsUtils {
 	 */
 	public static int getBitmapHeight(Context context, int resourceId) {
 
+		return GraphicsUtils.getBitmap(context, resourceId).getHeight();
+	}
+
+	/**
+	 * Returns the width of the bitmap for current screen density.
+	 * 
+	 * NOTE: this method should be used once the layout is established - e.g. in
+	 * #onWindowFocusChanged.
+	 * 
+	 * @param context
+	 * @param resourceId
+	 *            of the bitmap drawable.
+	 * @return Width in pixels.
+	 */
+	public static int getBitmapWidth(Context context, int resourceId) {
+
+		return GraphicsUtils.getBitmap(context, resourceId).getWidth();
+	}
+
+	/**
+	 * Returns the Bitmap for the following resource Id for the current screen density.
+	 * 
+	 * @param context
+	 * @param resourceId
+	 *            of the bitmap drawable.
+	 * @return
+	 */
+	private static Bitmap getBitmap(Context context, int resourceId) {
+
 		BitmapFactory.Options bitmapFactoryOptions = new BitmapFactory.Options();
 		bitmapFactoryOptions.inTargetDensity =
 				context.getResources().getDisplayMetrics().densityDpi;
@@ -37,7 +66,7 @@ public class GraphicsUtils {
 				BitmapFactory.decodeResource(context.getResources(), resourceId,
 						bitmapFactoryOptions);
 
-		return bitmap.getHeight();
+		return bitmap;
 	}
 
 	/**
