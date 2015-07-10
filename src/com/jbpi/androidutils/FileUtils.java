@@ -12,6 +12,7 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -112,6 +113,50 @@ public class FileUtils {
 		return stringWriter.toString();
 	}
 
+	public static ArrayList<String> readFileLineByLine(String filePath) throws IOException {
+
+		InputStream inputStream = new FileInputStream(filePath);
+
+		return FileUtils.readFileLineByLine(inputStream);
+	}
+
+	/**
+	 * Taken from: http://stackoverflow.com/questions/7175161/how-to-get-file-read-line-by-line
+	 * 
+	 * @param inputStream
+	 * @return
+	 * @throws IOException
+	 */
+	public static ArrayList<String> readFileLineByLine(InputStream inputStream) throws IOException {
+
+		ArrayList<String> lines = new ArrayList<String>();
+
+		// if file the available for reading
+		if (inputStream != null) {
+			// prepare the file for reading
+			InputStreamReader inputReader = new InputStreamReader(inputStream);
+			BufferedReader bufferedReader = new BufferedReader(inputReader);
+
+			String line;
+
+			// read every line of the file into the line-variable, on line at the time
+			do {
+
+				line = bufferedReader.readLine();
+
+				if (line != null) {
+
+					lines.add(line);
+				}
+			}
+			while (line != null);
+
+			inputStream.close();
+		}
+
+		return lines;
+	}
+
 	/**
 	 * Requires WRITE_EXTERNAL_STORAGE permission.
 	 * 
@@ -188,5 +233,33 @@ public class FileUtils {
 	public static int resIdFromDrawable(Context context, String name) {
 
 		return context.getResources().getIdentifier(name, "drawable", context.getPackageName());
+	}
+
+	public static String getFilePathToFileInAssets(String relativeFilePath) {
+
+		return "file:///android_asset/" + relativeFilePath;
+	}
+
+	/**
+	 * Checks if a file exists in the assets dir.
+	 * 
+	 * @param context
+	 * @param filePath
+	 *            File path relative to the assets dir, e.g. "folder/file.ext" for a file located in
+	 *            "assets/folder/file.ext"
+	 * @return
+	 */
+	public static boolean doesFileExistInAssets(Context context, String filePath) {
+
+		try {
+
+			context.getAssets().open(filePath);
+
+			return true;
+		}
+		catch (IOException e) {
+
+			return false;
+		}
 	}
 }
