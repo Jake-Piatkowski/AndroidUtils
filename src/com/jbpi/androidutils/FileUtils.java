@@ -241,7 +241,8 @@ public class FileUtils {
 	}
 
 	/**
-	 * Checks if a file exists in the assets dir.
+	 * Checks if a file exists in the assets dir. Seems it doesn't work for dirs - use
+	 * getAssets()#list().
 	 * 
 	 * @param context
 	 * @param filePath
